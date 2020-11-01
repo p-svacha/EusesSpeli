@@ -15,7 +15,7 @@ using System.Threading.Tasks;
 
 class Program
 {
-    public const string SourcePath = "E:/Workspace/VisualStudio/CardGenerator/CardGenerator/Images/"; // Images are saved to this folder
+    public const string SourcePath = "E:/Workspace/VisualStudio/EusesSpeli/CardGenerator/Images/";
 
     static void Main(string[] args)
     {
