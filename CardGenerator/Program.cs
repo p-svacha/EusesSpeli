@@ -72,7 +72,7 @@ class Program
     
     public static string FileNameForCard(string cardName)
     {
-        return cardName.ToLower().Replace(" ", "").Replace("ö", "oe").Replace("ä", "ae").Replace("ü", "ue").Replace(",", "").Replace("ñ","n") + ".png";
+        return cardName.ToLower().Replace(" ", "").Replace("ö", "oe").Replace("ä", "ae").Replace("ü", "ue").Replace(",", "").Replace("ñ","n").Replace(":","") + ".png";
     }
 }
 

@@ -9,33 +9,54 @@ using System.Drawing.Imaging;
 using System.Drawing;
 using System.Windows.Media;
 using System.Windows;
+using System.Drawing.Text;
 
 public static class CardImageGenerator
 {
     // from https://www.printerstudio.de/pops/faq-photo.html
-    private const int CardHeight = 1122;
-    private const int CardWidth = 747;
-
-    private const int CardMargin = 40;
-
-    private const int StatCircleRadius = 50;
-    private const int StatCircleThickness = 5;
-
-    private const int TitleWidth = 450;
-
-    private const int TextBoxY = 720;
-    private const int TextBoxHeight_Minion = 300;
-    private const int TextBoxHeight_Spell = 380;
-
-    private const int ClassWidth = 450;
+    private const int CardHeight = 2244;
+    private const int CardWidth = 1494;
 
     private const string Font = "Backslash";
-    private const int TitleFontSize = 42;
-    private const int StatFontSize = 56;
-    private const int TextFontSize = 32;
-    private const int ClassFontSize = 30;
+    private const int TitleFontSize = 76;
+    private const int TextFontSize = 64;
 
-    private const int CardImageSize = 500; // squared
+    private const int TitleWidth = 700;
+    private const int TitleY = 175;
+    private const int TitleHeight = 225;
+
+    private const int CostX = 292;
+    private const int CostY = 280;
+    private const int CostFontSize = 120;
+
+    private const int TypeX = 1203;
+    private const int TypeY = 280;
+    private const int TypeFontSize = 112;
+
+    private const int AttackX = 288;
+    private const int AttackY = 1950;
+    private const int AttackFontSize = 128;
+
+    private const int HealthX = 1206;
+    private const int HealthY = 1930;
+    private const int HealthFontSize = 128;
+
+    private const int ClassY = 1930;
+    private const int ClassWidth = 640;
+    private const int ClassHeight = 90;
+    private const int ClassFontSizeBig = 60;
+    private const int ClassFontSizeSmall = 40;
+
+    private const int TextBoxX = 160;
+    private const int TextBoxY = 1300;
+    private const int TextBoxWidth = 1180;
+    private const int TextBoxHeight_Minion = 550;
+    private const int TextBoxHeight_Spell = 760;
+
+    private const int CardImageX = 183;
+    private const int CardImageY = 435;
+    private const int CardImageWidth = 1180;
+    private const int CardImageHeight = 820;
 
     private static System.Drawing.Brush TextColor = System.Drawing.Brushes.Black;
     private static System.Drawing.Brush CostColor = System.Drawing.Brushes.DarkGoldenrod;
@@ -104,54 +125,35 @@ public static class CardImageGenerator
 
     private static void DrawPlayableCardBasics(PlayableCard c, WriteableBitmap bitmap)
     {
-        // Card Cost
-        int costX = 100;// CardMargin + StatCircleRadius;
-        int costY = 110;// CardMargin + StatCircleRadius;
-        //bitmap.FillEllipseCentered(costX, costY, StatCircleRadius, StatCircleRadius, TextColor);
-        //bitmap.FillEllipseCentered(costX, costY, StatCircleRadius - StatCircleThickness, StatCircleRadius - StatCircleThickness, BackgroundColor);
-        DrawText(bitmap, c.Cost.ToString(), Font, StatFontSize, System.Drawing.FontStyle.Regular, CostColor, costX, costY);
+        // Name
+        DrawText(bitmap, c.Name, Font, TitleFontSize, System.Drawing.FontStyle.Bold, TextColor, CardWidth / 2 - TitleWidth / 2, TitleY, TitleWidth, TitleHeight);
 
-        // Card Type
-        int typeX = 640; // CardWidth - CardMargin - StatCircleRadius;
-        int typeY = 120;// CardMargin + StatCircleRadius;
-        //bitmap.FillEllipseCentered(typeX, typeY, StatCircleRadius, StatCircleRadius, TextColor);
-        //bitmap.FillEllipseCentered(typeX, typeY, StatCircleRadius - StatCircleThickness, StatCircleRadius - StatCircleThickness, BackgroundColor);
-        DrawText(bitmap, c.Acronym, Font, StatFontSize, System.Drawing.FontStyle.Regular, TextColor, typeX, typeY);
+        // Cost
+        DrawText(bitmap, c.Cost.ToString(), Font, CostFontSize, System.Drawing.FontStyle.Regular, CostColor, CostX, CostY);
 
-        // Card Name
-        DrawText(bitmap, c.Name, Font, TitleFontSize, System.Drawing.FontStyle.Bold, TextColor, CardWidth / 2 - TitleWidth / 2, CardMargin, TitleWidth, (int)(3.1 * TitleFontSize));
-
-        // Halfway Line
-        //bitmap.FillRectangle(0, (int)(CardHeight * HalfLineThicknessYRatio) - HalfLineThickness / 2, CardWidth, (int)(CardHeight * HalfLineThicknessYRatio) + HalfLineThickness / 2, TextColor);
+        // Type
+        DrawText(bitmap, c.Acronym, Font, TypeFontSize, System.Drawing.FontStyle.Regular, TextColor, TypeX, TypeY);
 
         // Text
         int textBoxHeight = c.Type == CardType.Minion ? TextBoxHeight_Minion : TextBoxHeight_Spell;
-        DrawText(bitmap, c.Text, Font, TextFontSize, System.Drawing.FontStyle.Regular, TextColor, CardMargin, TextBoxY, CardWidth - 2 * CardMargin, textBoxHeight, StringAlignment.Center);
+        DrawText(bitmap, c.Text, Font, TextFontSize, System.Drawing.FontStyle.Regular, TextColor, TextBoxX, TextBoxY, TextBoxWidth, textBoxHeight, StringAlignment.Center);
 
         // Picture
         string imagePath = Program.SourcePath + "Images/" + Program.FileNameForCard(c.Name);
-        if (File.Exists(imagePath)) DrawImage(bitmap, imagePath, CardWidth / 2 - CardImageSize / 2, 190);
+        if (File.Exists(imagePath)) DrawImage(bitmap, imagePath, CardImageX, CardImageY);
     }
 
     private static void DrawMinionStats(Minion m, WriteableBitmap bitmap)
     {
         // Attack
-        int attackX = 120;// CardMargin + StatCircleRadius;
-        int attackY = 1025;// CardHeight - CardMargin - StatCircleRadius;
-        //bitmap.FillEllipseCentered(attackX, attackY, StatCircleRadius, StatCircleRadius, TextColor);
-        //bitmap.FillEllipseCentered(attackX, attackY, StatCircleRadius - StatCircleThickness, StatCircleRadius - StatCircleThickness, BackgroundColor);
-        DrawText(bitmap, m.Attack.ToString(), Font, StatFontSize, System.Drawing.FontStyle.Regular, AttackColor, attackX, attackY);
+        DrawText(bitmap, m.Attack.ToString(), Font, AttackFontSize, System.Drawing.FontStyle.Regular, AttackColor, AttackX, AttackY);
 
         // Health
-        int healthX = 660;// CardWidth - CardMargin - StatCircleRadius;
-        int healthY = 1030;// CardHeight - CardMargin - StatCircleRadius;
-        //bitmap.FillEllipseCentered(healthX, healthY, StatCircleRadius, StatCircleRadius, TextColor);
-        //bitmap.FillEllipseCentered(healthX, healthY, StatCircleRadius - StatCircleThickness, StatCircleRadius - StatCircleThickness, BackgroundColor);
-        DrawText(bitmap, m.Health.ToString(), Font, StatFontSize, System.Drawing.FontStyle.Regular, HealthColor, healthX, healthY);
+        DrawText(bitmap, m.Health.ToString(), Font, HealthFontSize, System.Drawing.FontStyle.Regular, HealthColor, HealthX, HealthY);
 
         // Class
-        int classFontSize = m.Class.Length > 20 ? ClassFontSize - 6 : ClassFontSize;
-        DrawText(bitmap, m.Class, Font, ClassFontSize, System.Drawing.FontStyle.Regular, TextColor, CardWidth / 2 - ClassWidth / 2, CardHeight - CardMargin - 2 * StatCircleRadius, ClassWidth, 2 * StatCircleRadius);
+        int classFontSize = m.Class.Length <= 15 ? ClassFontSizeBig : ClassFontSizeSmall;
+        DrawText(bitmap, m.Class, Font, classFontSize, System.Drawing.FontStyle.Regular, TextColor, CardWidth / 2 - ClassWidth / 2, ClassY, ClassWidth, ClassHeight);
         
     }
 
