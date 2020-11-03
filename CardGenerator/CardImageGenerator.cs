@@ -18,7 +18,7 @@ public static class CardImageGenerator
     private const int CardWidth = 1494;
 
     private const string Font = "Backslash";
-    private const int TitleFontSize = 76;
+    private const int TitleFontSize = 74;
     private const int TextFontSize = 64;
 
     private const int TitleWidth = 700;
@@ -93,20 +93,24 @@ public static class CardImageGenerator
 
     private static WriteableBitmap DrawMinion(Minion m)
     {
-        BitmapImage bitmapImage = null; 
-        if(m.Class == "Pflanze") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_plant.png", UriKind.Absolute));
-        else if(m.Class == "Dämon") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_demon.png", UriKind.Absolute));
-        else if(m.Class == "Drache") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_drache.png", UriKind.Absolute));
-        else if(m.Class == "Froschling") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_froschling.png", UriKind.Absolute));
-        else if(m.Class == "Geist") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_geist.png", UriKind.Absolute));
-        else if(m.Class == "Katzenkämpfer") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_kk.png", UriKind.Absolute));
-        else if(m.Class == "Stein") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_stein.png", UriKind.Absolute));
-        else if(m.Class == "Zwerg") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwerg.png", UriKind.Absolute));
+        BitmapImage bitmapImage = null;
+        if (m.Class == "Pflanze") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_plant.png", UriKind.Absolute));
+        else if (m.Class == "Dämon") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_demon.png", UriKind.Absolute));
+        else if (m.Class == "Drache") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_drache.png", UriKind.Absolute));
+        else if (m.Class == "Froschling") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_froschling.png", UriKind.Absolute));
+        else if (m.Class == "Geist") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_geist.png", UriKind.Absolute));
+        else if (m.Class == "Katzenkämpfer") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_kk.png", UriKind.Absolute));
+        else if (m.Class == "Stein") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_stein.png", UriKind.Absolute));
+        else if (m.Class == "Zwerg") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwerg.png", UriKind.Absolute));
 
-        else if(m.Class == "Alles") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_all.png", UriKind.Absolute));
-        else if(m.Class == "Zwerg / Froschling") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwergfrosch.png", UriKind.Absolute));
-        else if(m.Class == "Dinodrache / Katzenkämpfer") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_drachekk.png", UriKind.Absolute));
-        else bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion.png", UriKind.Absolute));
+        else if (m.Class == "Alles") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_all.png", UriKind.Absolute));
+        else if (m.Class == "Zwerg / Froschling") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwergfrosch.png", UriKind.Absolute));
+        else if (m.Class == "Dinodrache / Katzenkämpfer") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_drachekk.png", UriKind.Absolute));
+        else
+        {
+            if (m.Class != "") Console.WriteLine("ERROR: Klasse " + m.Class + " vom Minion " + m.Name + " hat kein Template. Verwende Standard-Template.");
+            bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion.png", UriKind.Absolute));
+        }
         WriteableBitmap bitmap = new WriteableBitmap(bitmapImage);
 
         DrawPlayableCardBasics(m, bitmap);

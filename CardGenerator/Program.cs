@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 class Program
 {
     public const string SourcePath = "E:/Workspace/VisualStudio/EusesSpeli/CardGenerator/Images/";
+    public const bool CreateCardsWithoutImages = false;
 
     static void Main(string[] args)
     {
@@ -29,11 +30,12 @@ class Program
         {
             dynamic card = (dynamic)row;
             string cardName = (string)card.Name;
+            bool hasPicture = File.Exists(SourcePath + "Images/" + FileNameForCard(cardName));
 
-            if (!File.Exists(SourcePath + "Images/" + FileNameForCard(cardName)))
-            {
-                Console.WriteLine("ERROR: Picture not found for " + cardName);
-            }
+            if (!hasPicture)
+                Console.WriteLine("ERROR: Picture not found for " + cardName + ". ");
+
+            if(CreateCardsWithoutImages || hasPicture)
             switch (card.Type)
             {
                 case "Minion":
@@ -51,7 +53,7 @@ class Program
                     break;
 
                 default:
-                    Console.WriteLine(card.Name + " has unknown type " + card.Type);
+                    Console.WriteLine("ERROR: " + card.Name + " has unknown type " + card.Type);
                     break;
             }
         }
