@@ -5,16 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-public class Minion : PlayableCard
+public class Creature : PlayableCard
 {
     public int Attack;
     public int Health;
     public string Class;
 
-    public Minion(string name, int cost, int attack, int health, string minionClass, string text, bool costX = false) : base(name, cost, text, costX)
+    public Creature(string name, int cost, int attack, int health, string minionClass, string text, bool costX = false) : base(name, cost, text, costX)
     {
-        Type = CardType.Minion;
-        Acronym = "M";
+        Type = CardType.Creature;
+        Acronym = "K";
 
         Attack = attack;
         Health = health;

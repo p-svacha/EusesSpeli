@@ -10,7 +10,7 @@ public class Spell : PlayableCard
     public Spell(string name, int cost, string text, bool costX = false) : base(name, cost, text, costX)
     {
         Type = CardType.Spell;
-        Acronym = "S";
+        Acronym = "Z";
     }
 }
 

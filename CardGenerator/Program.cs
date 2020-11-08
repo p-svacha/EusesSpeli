@@ -38,15 +38,15 @@ class Program
             if(CreateCardsWithoutImages || hasPicture)
             switch (card.Type)
             {
-                case "Minion":
+                case "Kreatur":
                     int cost = card.Cost == "X" ? 0 : int.Parse(card.Cost);
                     bool costX = card.Cost == "X";
                     int attack = int.Parse(card.Attack);
                     int health = int.Parse(card.Health);
-                    cards.Add(new Minion(cardName, cost, attack, health, card.Class, card.Text, costX));
+                    cards.Add(new Creature(cardName, cost, attack, health, card.Class, card.Text, costX));
                     break;
 
-                case "Spell":
+                case "Zauber":
                     cost = card.Cost == "X" ? 0 : int.Parse(card.Cost);
                     costX = card.Cost == "X";
                     cards.Add(new Spell(cardName, cost, card.Text, costX));
@@ -74,7 +74,7 @@ class Program
     
     public static string FileNameForCard(string cardName)
     {
-        return cardName.ToLower().Replace(" ", "").Replace("ö", "oe").Replace("ä", "ae").Replace("ü", "ue").Replace(",", "").Replace("ñ","n").Replace(":","").Replace("-","") + ".png";
+        return cardName.ToLower().Replace(" ", "").Replace("ö", "oe").Replace("ä", "ae").Replace("ü", "ue").Replace(",", "").Replace("ñ","n").Replace(":","").Replace("-","").Replace("(","").Replace(")","").Replace("'","").Replace("!","").Replace("&","") + ".png";
     }
 }
 

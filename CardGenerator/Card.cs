@@ -18,7 +18,7 @@ public class Card
 
 public enum CardType
 {
-    Minion,
+    Creature,
     Spell,
     Gold,
     Weather

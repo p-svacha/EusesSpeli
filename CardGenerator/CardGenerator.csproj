@@ -76,7 +76,7 @@
     <Compile Include="Card.cs" />
     <Compile Include="CardImageGenerator.cs" />
     <Compile Include="GoogleSheetsHelper.cs" />
-    <Compile Include="Minion.cs" />
+    <Compile Include="Creature.cs" />
     <Compile Include="PlayableCard.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

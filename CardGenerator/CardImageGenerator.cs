@@ -72,8 +72,8 @@ public static class CardImageGenerator
 
         switch (c.Type)
         {
-            case CardType.Minion:
-                bitmap = DrawMinion(c as Minion);
+            case CardType.Creature:
+                bitmap = DrawMinion(c as Creature);
                 break;
 
             case CardType.Spell:
@@ -91,7 +91,7 @@ public static class CardImageGenerator
         bmp.Save(path, ImageFormat.Png);
     }
 
-    private static WriteableBitmap DrawMinion(Minion m)
+    private static WriteableBitmap DrawMinion(Creature m)
     {
         BitmapImage bitmapImage = null;
         if (m.Class == "Pflanze") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_plant.png", UriKind.Absolute));
@@ -103,9 +103,6 @@ public static class CardImageGenerator
         else if (m.Class == "Stein") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_stein.png", UriKind.Absolute));
         else if (m.Class == "Zwerg") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwerg.png", UriKind.Absolute));
 
-        else if (m.Class == "Alles") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_all.png", UriKind.Absolute));
-        else if (m.Class == "Zwerg / Froschling") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwergfrosch.png", UriKind.Absolute));
-        else if (m.Class == "Dinodrache / Katzenkämpfer") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_drachekk.png", UriKind.Absolute));
         else
         {
             if (m.Class != "") Console.WriteLine("ERROR: Klasse " + m.Class + " vom Minion " + m.Name + " hat kein Template. Verwende Standard-Template.");
@@ -139,7 +136,7 @@ public static class CardImageGenerator
         DrawText(bitmap, c.Acronym, Font, TypeFontSize, System.Drawing.FontStyle.Regular, TextColor, TypeX, TypeY);
 
         // Text
-        int textBoxHeight = c.Type == CardType.Minion ? TextBoxHeight_Minion : TextBoxHeight_Spell;
+        int textBoxHeight = c.Type == CardType.Creature ? TextBoxHeight_Minion : TextBoxHeight_Spell;
         DrawText(bitmap, c.Text, Font, TextFontSize, System.Drawing.FontStyle.Regular, TextColor, TextBoxX, TextBoxY, TextBoxWidth, textBoxHeight, StringAlignment.Center);
 
         // Picture
@@ -147,7 +144,7 @@ public static class CardImageGenerator
         if (File.Exists(imagePath)) DrawImage(bitmap, imagePath, CardImageX, CardImageY);
     }
 
-    private static void DrawMinionStats(Minion m, WriteableBitmap bitmap)
+    private static void DrawMinionStats(Creature m, WriteableBitmap bitmap)
     {
         // Attack
         DrawText(bitmap, m.Attack.ToString(), Font, AttackFontSize, System.Drawing.FontStyle.Regular, AttackColor, AttackX, AttackY);
