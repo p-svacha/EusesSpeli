@@ -10,6 +10,7 @@ using System.Drawing;
 using System.Windows.Media;
 using System.Windows;
 using System.Drawing.Text;
+using Google.Apis.Sheets.v4.Data;
 
 public static class CardImageGenerator
 {
@@ -22,6 +23,7 @@ public static class CardImageGenerator
     private const int TextFontSize = 64;
 
     private const int TitleWidth = 700;
+    private const int TitleWidthWeather = 1000;
     private const int TitleY = 175;
     private const int TitleHeight = 225;
 
@@ -79,6 +81,10 @@ public static class CardImageGenerator
             case CardType.Spell:
                 bitmap = DrawSpell(c as Spell);
                 break;
+
+            case CardType.Weather:
+                bitmap = DrawWeather(c as Weather);
+                break;
         }
 
         // Convert to Bitmap and Save
@@ -103,6 +109,13 @@ public static class CardImageGenerator
         else if (m.Class == "Stein") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_stein.png", UriKind.Absolute));
         else if (m.Class == "Zwerg") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwerg.png", UriKind.Absolute));
 
+        else if (m.Class == "Alles") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_all.png", UriKind.Absolute));
+
+        else if (m.Class == "Dinodrache / Katzenkämpfer") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_ddkk.png", UriKind.Absolute));
+        else if (m.Class == "Froschling / Dinodrache") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_frdd.png", UriKind.Absolute));
+        else if (m.Class == "Katzenkämpfer / Dämon") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_kkde.png", UriKind.Absolute));
+        else if (m.Class == "Zwerg / Froschling") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwfr.png", UriKind.Absolute));
+
         else
         {
             if (m.Class != "") Console.WriteLine("ERROR: Klasse " + m.Class + " vom Minion " + m.Name + " hat kein Template. Verwende Standard-Template.");
@@ -110,7 +123,12 @@ public static class CardImageGenerator
         }
         WriteableBitmap bitmap = new WriteableBitmap(bitmapImage);
 
-        DrawPlayableCardBasics(m, bitmap);
+
+        DrawName(m, bitmap);
+        DrawCost(m, bitmap);
+        DrawType(m, bitmap);
+        DrawText(m, bitmap);
+        DrawPicture(m, bitmap);
         DrawMinionStats(m, bitmap);
         return bitmap;
     }
@@ -120,29 +138,54 @@ public static class CardImageGenerator
         BitmapImage bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_spell.png", UriKind.Absolute));
         WriteableBitmap bitmap = new WriteableBitmap(bitmapImage);
 
-        DrawPlayableCardBasics(s, bitmap);
+        DrawName(s, bitmap);
+        DrawCost(s, bitmap);
+        DrawType(s, bitmap);
+        DrawText(s, bitmap);
+        DrawPicture(s, bitmap);
         return bitmap;
     }
 
-    private static void DrawPlayableCardBasics(PlayableCard c, WriteableBitmap bitmap)
+    private static WriteableBitmap DrawWeather(Weather w)
     {
-        // Name
-        DrawText(bitmap, c.Name, Font, TitleFontSize, System.Drawing.FontStyle.Bold, TextColor, CardWidth / 2 - TitleWidth / 2, TitleY, TitleWidth, TitleHeight);
+        BitmapImage bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_weather.png", UriKind.Absolute));
+        WriteableBitmap bitmap = new WriteableBitmap(bitmapImage);
 
-        // Cost
-        DrawText(bitmap, c.Cost.ToString(), Font, CostFontSize, System.Drawing.FontStyle.Regular, CostColor, CostX, CostY);
+        DrawName(w, bitmap);
+        DrawPicture(w, bitmap);
+        DrawText(w, bitmap);
 
-        // Type
-        DrawText(bitmap, c.Acronym, Font, TypeFontSize, System.Drawing.FontStyle.Regular, TextColor, TypeX, TypeY);
+        return bitmap;
+    }
 
-        // Text
-        int textBoxHeight = c.Type == CardType.Creature ? TextBoxHeight_Minion : TextBoxHeight_Spell;
-        DrawText(bitmap, c.Text, Font, TextFontSize, System.Drawing.FontStyle.Regular, TextColor, TextBoxX, TextBoxY, TextBoxWidth, textBoxHeight, StringAlignment.Center);
 
-        // Picture
+    private static void DrawName(Card c, WriteableBitmap bitmap)
+    {
+        int titleWidth = c.Type == CardType.Weather ? TitleWidthWeather : TitleWidth;
+        DrawText(bitmap, c.Name, Font, TitleFontSize, System.Drawing.FontStyle.Bold, TextColor, CardWidth / 2 - titleWidth / 2, TitleY, titleWidth, TitleHeight);
+    }
+    private static void DrawPicture(Card c, WriteableBitmap bitmap)
+    {
         string imagePath = Program.SourcePath + "Images/" + Program.FileNameForCard(c.Name);
         if (File.Exists(imagePath)) DrawImage(bitmap, imagePath, CardImageX, CardImageY);
     }
+    private static void DrawText(Card c, WriteableBitmap bitmap)
+    {
+        int textBoxHeight = c.Type == CardType.Creature ? TextBoxHeight_Minion : TextBoxHeight_Spell;
+        DrawText(bitmap, c.Text, Font, TextFontSize, System.Drawing.FontStyle.Regular, TextColor, TextBoxX, TextBoxY, TextBoxWidth, textBoxHeight, StringAlignment.Center);
+    }
+
+    private static void DrawCost(PlayableCard c, WriteableBitmap bitmap)
+    {
+        DrawText(bitmap, c.Cost.ToString(), Font, CostFontSize, System.Drawing.FontStyle.Regular, CostColor, CostX, CostY);
+    }
+    private static void DrawType(PlayableCard c, WriteableBitmap bitmap)
+    {
+        DrawText(bitmap, c.Acronym, Font, TypeFontSize, System.Drawing.FontStyle.Regular, TextColor, TypeX, TypeY);
+    }
+    
+
+    
 
     private static void DrawMinionStats(Creature m, WriteableBitmap bitmap)
     {

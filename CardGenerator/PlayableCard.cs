@@ -10,12 +10,10 @@ public class PlayableCard : Card
     public string Acronym;
     public int Cost;
     public bool CostX; // If true, the player can choose the card cost
-    public string Text;
 
-    public PlayableCard(string name, int cost, string text, bool costX = false) :base(name)
+    public PlayableCard(string name, int cost, string text, bool costX = false) :base(name, text)
     {
         Cost = cost;
-        Text = text;
         CostX = costX;
         if (costX) Cost = 0;
     }
