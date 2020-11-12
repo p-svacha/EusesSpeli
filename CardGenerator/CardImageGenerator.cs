@@ -177,7 +177,8 @@ public static class CardImageGenerator
 
     private static void DrawCost(PlayableCard c, WriteableBitmap bitmap)
     {
-        DrawText(bitmap, c.Cost.ToString(), Font, CostFontSize, System.Drawing.FontStyle.Regular, CostColor, CostX, CostY);
+        string cost = c.CostX ? "X" : c.Cost.ToString();
+        DrawText(bitmap, cost, Font, CostFontSize, System.Drawing.FontStyle.Regular, CostColor, CostX, CostY);
     }
     private static void DrawType(PlayableCard c, WriteableBitmap bitmap)
     {
