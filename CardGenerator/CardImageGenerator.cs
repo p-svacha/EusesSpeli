@@ -108,6 +108,7 @@ public static class CardImageGenerator
         else if (m.Class == "Katzenkämpfer") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_kk.png", UriKind.Absolute));
         else if (m.Class == "Stein") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_stein.png", UriKind.Absolute));
         else if (m.Class == "Zwerg") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwerg.png", UriKind.Absolute));
+        else if (m.Class == "Dinodrache") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_dd.png", UriKind.Absolute));
 
         else if (m.Class == "Alles") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_all.png", UriKind.Absolute));
 
@@ -115,6 +116,7 @@ public static class CardImageGenerator
         else if (m.Class == "Froschling / Dinodrache") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_frdd.png", UriKind.Absolute));
         else if (m.Class == "Katzenkämpfer / Dämon") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_kkde.png", UriKind.Absolute));
         else if (m.Class == "Zwerg / Froschling") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_zwfr.png", UriKind.Absolute));
+        else if (m.Class == "Pflanze / Stein") bitmapImage = new BitmapImage(new Uri(Program.SourcePath + "Templates/template_minion_pfst.png", UriKind.Absolute));
 
         else
         {
